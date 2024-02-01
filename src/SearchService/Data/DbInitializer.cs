@@ -22,12 +22,14 @@ public class DbInitializer
         if (count > 0)
             return;
 
-        System.Console.WriteLine("getting data from auction service");
+        Console.WriteLine("getting data from auction service");
 
         using var scope = app.Services.CreateScope();
         var httpClient = scope.ServiceProvider.GetRequiredService<AuctionSvsHttpClient>();
 
         var items = await httpClient.GetItemsForSearchDb();
+
+        Console.WriteLine(items.Count + " returned from the auction service");
 
         await DB.SaveAsync(items);
     }
